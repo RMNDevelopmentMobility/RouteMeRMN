@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">RouteMeRMN</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">RouteMe</string>
+    <string name="title_activity_maps">RouteMe</string>
 
     <string name="google_maps_key">AIzaSyBLJ1UCVpubhpk9-KB7-V8xmmvgzXBfZoQ</string>
 </resources>
