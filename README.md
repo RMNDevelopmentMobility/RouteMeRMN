@@ -14,7 +14,7 @@ TESTE DESENVOLVEDOR ANDROID – B2W
 
 Screenshot | Description
 -----------|-------------
-![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_01.png "IMAGEM 1") | IMAGEM 1: SplashScreen.
-![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_02.png "IMAGEM 2") | IMAGEM 2: Localização atual.
-![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_03.png "IMAGEM 3") | IMAGEM 3: Pesquisa com autocomplete.
-![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_04.png "IMAGEM 4") | IMAGEM 4: Rota traçada => origem/destino.
+![](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_01.png) | IMAGEM 1: SplashScreen.
+![](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_02.png) | IMAGEM 2: Localização atual.
+![](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_03.png) | IMAGEM 3: Pesquisa com autocomplete.
+![](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_04.png) | IMAGEM 4: Rota traçada => origem/destino.
