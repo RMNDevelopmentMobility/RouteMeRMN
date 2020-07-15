@@ -1,19 +1,14 @@
 package com.routemermn;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
@@ -42,11 +37,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import org.json.JSONObject;
 
@@ -71,43 +63,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private LocationCallback mLocationCallback;
 
-    private double latitude;
-    private double longitude;
     private String nameLocation;
-
     MarkerOptions origin;
     MarkerOptions destination;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
+//    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getResources().getString(R.string.google_maps_key));
         }
-
         Places.createClient(this);
         this.setAutocompleteFragment();
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
@@ -146,7 +124,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                Helper.showLog("Location Received");
+                Helper.showLog("Localização recebida");
                 onLocationChanged(locationResult.getLastLocation());
             }
         };
@@ -240,7 +218,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         mGoogleMap.setMyLocationEnabled(true);
                     }
                 } else {
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Permissão negada", Toast.LENGTH_SHORT).show();
                 }
                 return;
             default:
@@ -259,24 +237,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)this.getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
 
-//        // Set the fields to specify which types of place data to
-//        // return after the user has made a selection.
-//        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG);
-//
 //        // Start the autocomplete intent.
-//        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+//        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
 //                .build(this);
-//        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
-
+//        autocompleteFragment.startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull final Place place) {
                 if (place.getLatLng() != null) {
-                    //buttonSubmit.setVisibility(View.VISIBLE);
-                    latitude = place.getLatLng().latitude;
-                    longitude = place.getLatLng().longitude;
                     nameLocation = place.getName();
+
                     // Creating a marker
                     final MarkerOptions markerOptions = new MarkerOptions();
 
@@ -286,9 +257,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     // Setting the title for the marker.
                     // This will be displayed on taping the marker
                     markerOptions.title(nameLocation);
-
-                    // Clears the previously touched position
-                    //mGoogleMap.clear();
 
                     destination = new MarkerOptions();
                     destination.position(place.getLatLng());
@@ -303,19 +271,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             }
 
                             mGoogleMap.addMarker(origin);
-
-                            // Placing a marker on the touched position
                             mGoogleMap.addMarker(destination);
 
-                            // Animating to the touched position
                             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng()));
                             mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 16.0F));
 
                             // Getting URL to the Google Directions API
                             String url = getDirectionsUrl(origin.getPosition(), destination.getPosition());
-
                             DownloadTask downloadTask = new DownloadTask();
-
                             // Start downloading json data from Google Directions API
                             downloadTask.execute(url);
                         }
@@ -325,32 +288,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onError(@NonNull Status status) {
-                Toast.makeText(getApplicationContext(), "Error: " + status, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Erro: " + status, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 //        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                Place place = Autocomplete.getPlaceFromIntent(data);
-                Helper.showLog("Place: " + place.getName() + ", " + place.getId());
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
-                Status status = Autocomplete.getStatusFromIntent(data);
-                Helper.showLog(status.getStatusMessage());
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
-                Helper.showLog("RESULT_CANCELED");
-            }
-//            return;
+//            if (resultCode == RESULT_OK) {
+//                Place place = Autocomplete.getPlaceFromIntent(data);
+//                Helper.showLog("Place: " + place.getName() + ", " + place.getId());
+//            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+//                Status status = Autocomplete.getStatusFromIntent(data);
+//                Helper.showLog(status.getStatusMessage());
+//            } else if (resultCode == RESULT_CANCELED) {
+//                // The user canceled the operation.
+//                Helper.showLog("RESULT_CANCELED");
+//            }
 //        }
 //        else{
 //            Helper.showLog("requestCode != AUTOCOMPLETE_REQUEST_CODE");
 //        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
     private void connectGoogleClient() {
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
@@ -409,9 +370,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private class DownloadTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... url) {
-
             String data = "";
-
             try {
                 data = downloadUrl(url[0]);
             } catch (Exception e) {
@@ -433,11 +392,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * A class to parse the JSON format
      */
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
-
         // Parsing the data in non-ui thread
         @Override
         protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-
             JSONObject jObject;
             List<List<HashMap<String, String>>> routes = null;
 
@@ -493,70 +450,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100));
             }
             else {
-                Helper.showToast(getBaseContext(), "Não foi possível traçar a rota até o destino.");
+                Helper.showToast(getBaseContext(), "Não foi possível traçar a rota até o destino");
             }
-        }
-
-        private String getDirectionsUrl(LatLng origin, LatLng dest) {
-            // Origin of route
-            String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
-            // Destination of route
-            String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-            String sensor = "sensor=false";
-            //setting transportation mode
-            String mode = "mode=driving";
-            String key = getResources().getString(R.string.google_maps_key);
-
-            // Building the parameters to the web service
-            String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&" + key;
-
-            // Output format
-            String output = "json";
-
-            // Building the url to the web service
-            String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + "AIzaSyD_L8g3AcwXBKnEjhvLJwBXwI3L51LjQUU";
-
-            return url;
-        }
-
-        /**
-         * A method to download json data from url
-         */
-        private String downloadUrl(String strUrl) throws IOException {
-            String data = "";
-            InputStream iStream = null;
-            HttpURLConnection urlConnection = null;
-            try {
-                URL url = new URL(strUrl);
-
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                urlConnection.connect();
-
-                iStream = urlConnection.getInputStream();
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-                StringBuffer sb = new StringBuffer();
-
-                String line = "";
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                data = sb.toString();
-
-                br.close();
-
-            } catch (Exception e) {
-                Helper.showLog("Exception: " + e.toString());
-            } finally {
-                iStream.close();
-                urlConnection.disconnect();
-            }
-            return data;
         }
     }
 }
