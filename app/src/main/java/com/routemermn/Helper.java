@@ -10,6 +10,6 @@ public class Helper {
     }
 
     public static void showToast(Context context, String message) {
-        Toast.makeText(context, "" + message, 0).show();
+        Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
     }
 }

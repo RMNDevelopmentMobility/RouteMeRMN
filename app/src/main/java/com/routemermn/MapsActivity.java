@@ -280,7 +280,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     // Creating a marker
                     final MarkerOptions markerOptions = new MarkerOptions();
 
-                    Toast.makeText(getApplicationContext(), String.valueOf(place.getLatLng()), Toast.LENGTH_LONG).show();
                     // Setting the position for the marker
                     markerOptions.position(place.getLatLng());
 
@@ -326,7 +325,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             @Override
             public void onError(@NonNull Status status) {
-                Toast.makeText(getApplicationContext(), "Error: " + status, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error: " + status, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -473,26 +472,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     boundsBuilder.include(position);
 
-                    points.add(position);
+                    if (position != null) {
+                        points.add(position);
+                    }
                 }
 
-                lineOptions.addAll(points);
-                lineOptions.width(12);
-                lineOptions.color(Color.RED);
-                lineOptions.geodesic(true);
+                if (points.size() != 0) {
+                    lineOptions.addAll(points);
+                    lineOptions.width(12);
+                    lineOptions.color(Color.RED);
+                    lineOptions.geodesic(true);
+                }
             }
-
-            LatLngBounds latLngBounds = boundsBuilder.build();
 
             // Drawing polyline in the Google Map
             if (points.size() != 0) {
                 mGoogleMap.addPolyline(lineOptions);
+
+                LatLngBounds latLngBounds = boundsBuilder.build();
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100));
+            }
+            else {
+                Helper.showToast(getBaseContext(), "Não foi possível traçar a rota até o destino.");
             }
         }
 
         private String getDirectionsUrl(LatLng origin, LatLng dest) {
-
             // Origin of route
             String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
