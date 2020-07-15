@@ -10,11 +10,11 @@ TESTE DESENVOLVEDOR ANDROID – B2W
 1. b) Indicar no mapa a localização do local escolhido pelo usuário.
 1. BÔNUS: Que tal desenhar uma rota, para guiar o usuário? Ficaria legal né?
 
-### Resultado Screenshots
+### Resultado:
 
 Screenshot | Description
 -----------|-------------
-![Alt text](https://bitbucket.org/ac-recruitment/ios-challenge/raw/master/screenshots/one_item.png "PICTURE 1.1") | PICTURE 1.1: Main view when containing only one result.
-![Alt text](https://bitbucket.org/ac-recruitment/ios-challenge/raw/master/screenshots/many_items.png "PICTURE 1.2") | PICTURE 1.2: Main view when containing multiple results.
-![Alt text](https://bitbucket.org/ac-recruitment/ios-challenge/raw/master/screenshots/mapview.png "PICTURE 2.1") | PICTURE 2.1: Map view when displayed with a selected item. Please, make sure to add a "Save" or "Delete" button as required by ACs 12 and 13.
-![Alt text](https://bitbucket.org/ac-recruitment/ios-challenge/raw/master/screenshots/mapview_all.png "PICTURE 2.2") | PICTURE 2.2: How the app map view should look like when displayed from "Display All on Map" option from the results list.
+![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_01.png "IMAGEM 1") | IMAGEM 1: SplashScreen.
+![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_02.png "IMAGEM 2") | IMAGEM 2: Localização atual.
+![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_03.png "IMAGEM 3") | IMAGEM 3: Pesquisa com autocomplete.
+![Alt text](https://github.com/RMNDevelopmentMobility/RouteMeRMN/blob/master/screenshots/Screenshot_04.png "IMAGEM 4") | IMAGEM 4: Rota traçada => origem/destino.
