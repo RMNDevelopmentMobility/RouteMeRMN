@@ -6,11 +6,11 @@ TESTE DESENVOLVEDOR ANDROID – B2W
 
 1. O usuário deve ser capaz de pesquisar por um local através de um campo de texto. Esse campo deve possuir autocomplete.
 1. Ao selecionar o local desejado o aplicativo deve:
-    a. Indicar no mapa a localização atual do usuário;
-    b. Indicar no mapa a localização do local escolhido pelo usuário.
+1. a) Indicar no mapa a localização atual do usuário;
+1. b) Indicar no mapa a localização do local escolhido pelo usuário.
 1. BÔNUS: Que tal desenhar uma rota, para guiar o usuário? Ficaria legal né?
 
-### Sample Screenshots
+### Resultado Screenshots
 
 Screenshot | Description
 -----------|-------------
